@@ -7,8 +7,25 @@ const { promisify } = require('util');
 const writeFileAsync = promisify(fs.writeFile);
 
 const regexForExtension = /(?:\.([^.]+))?$/;
+const regexForFileExample = /\s[a-zA-Z]+\.ml\s/gm;
 
 const findOCamlCodeElements = dom => [].slice.call(dom.window.document.querySelectorAll(".caml-input"));
+const findUnmarkedPreNodes = dom =>
+  [].slice.call(dom.window.document.querySelectorAll("pre"))
+    .filter(preNode => regexForFileExample.exec(preNode.textContent).length > 0);
+const injectHighlighter = dom => {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src = '//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js';
+
+  var style = document.createElement('style');
+  style.rel = 'stylesheet';
+  style.href = '//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css';
+
+  document.getElementsByTagName('head')[0].appendChild(style);
+  document.getElementsByTagName('head')[0].appendChild(script);
+  return dom;
+};
 
 const folderOfBook = '../TheOCamlsystem4.06';
 
@@ -16,22 +33,23 @@ Promise.all(
   fs.readdirSync(folderOfBook)
     .filter(file => regexForExtension.exec(file).pop() === 'html')
     .map(file => `${folderOfBook}/${file}`)
-    .map(file =>
+    .map(fileName =>
       JSDOM
-        .fromFile(file)
-        .then(dom => [file, dom])
+        .fromFile(fileName)
+        .then(dom => [fileName, dom])
+        .then(injectHighlighter)
     )
 ).then(files =>
   Promise.all(
-    files.map(([file, dom]) => {
-      console.log(`Processing ${file}`);
-      findOCamlCodeElements(dom)
+    files.map(([fileName, dom]) => {
+      console.log(`Processing ${fileName}`);
+      [...findOCamlCodeElements(dom), ...findUnmarkedPreNodes(dom)]
         .forEach(ocamlCodeBlock => {
           ocamlCodeBlock.className += " re-input";
           ocamlCodeBlock.textContent = refmt(ocamlCodeBlock.textContent, 'ML');
         });
-      console.log(`Writing ${file}`);
-      return writeFileAsync(`${file}`, dom.serialize());
+      console.log(`Writing ${fileName}`);
+      return writeFileAsync(`${fileName}`, dom.serialize());
     })
   )
 ).then(_ => {
