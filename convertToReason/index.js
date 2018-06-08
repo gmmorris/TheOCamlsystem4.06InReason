@@ -27,6 +27,7 @@ Promise.all(
       console.log(`Processing ${file}`);
       findOCamlCodeElements(dom)
         .forEach(ocamlCodeBlock => {
+          ocamlCodeBlock.className += " re-input";
           ocamlCodeBlock.textContent = refmt(ocamlCodeBlock.textContent, 'ML');
         });
       console.log(`Writing ${file}`);
