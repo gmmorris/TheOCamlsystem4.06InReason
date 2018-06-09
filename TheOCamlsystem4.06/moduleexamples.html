@@ -528,9 +528,9 @@ construct.
 </li></ul><p>
 These two files together define a structure named <span class="c009">A</span> as if
 the following definition was entered at top-level:
-</p><pre>
-module <span class="c009">A</span>: sig (* contents of file <span class="c009">A</span>.mli *) end
-        = struct (* contents of file <span class="c009">A</span>.ml *) end;;
+</p><pre class="caml-input caml-unmarked-input">
+module A: sig (* contents of file A.mli *) end
+        = struct (* contents of file A.ml *) end;;
 </pre><p>
 The files that define the compilation units can be compiled separately
 using the <span class="c003">ocamlc -c</span> command (the <span class="c003">-c</span> option means &#X201C;compile only, do
@@ -547,7 +547,7 @@ $ ocamlc -c Main.ml                     # produces main.cmo
 $ ocamlc -o theprogram Aux.cmo Main.cmo
 </pre><p>The program behaves exactly as if the following phrases were entered
 at top-level:
-</p><pre>
+</p><pre class="caml-input caml-unmarked-input">
 module Aux: sig (* contents of Aux.mli *) end
           = struct (* contents of Aux.ml *) end;;
 module Main: sig (* contents of Main.mli *) end

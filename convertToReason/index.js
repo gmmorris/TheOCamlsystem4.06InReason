@@ -6,7 +6,7 @@ const callAndReturn = callback => s => {
   callback(s)
   return s;
 };
-const logSuccess = callAndReturn(s => console.log(colors.green(s)));
+const logSuccess = callAndReturn(s => console.log(colors.rainbow(s)));
 const logInfo = callAndReturn(s => console.log(colors.green(s)));
 const logError = callAndReturn(s => console.log(colors.red(s)));
 const logCode = callAndReturn(s => console.log(colors.blue(s)));
@@ -23,7 +23,7 @@ const rmrfAsync = promisify(rimraf);
 
 const shell = require('shelljs');
 shell.config.fatal = true;
-// shell.config.silent = true;
+shell.config.silent = true;
 
 const { ncp } = require('ncp');
 ncp.limit = 16;
@@ -78,13 +78,16 @@ const sanitise = str => str
 
 const convertMLtoRE = mlCode => new Promise((resolve, reject) => {
   const { code, stdout, stderr } = shell
-    .exec(logEcho(`echo "${sanitise(mlCode)}"`))
+    .exec(`echo "${sanitise(mlCode)}"`)
     .exec(`node_modules/.bin/bsrefmt --parse ml --print re `);
   if(code === 0) {
     resolve(stdout);
   } else {
     reject(stderr);
   }
+}).catch(e => {
+  logEcho(`echo "${sanitise(mlCode)}"`);
+  return Promise.reject(e);
 });
 
 const folderOfManual = '../TheOCamlsystem4.06';
@@ -106,6 +109,7 @@ rmrfAsync(folderOfManualInReason)
   .then(() => ncpAsync(folderOfManual, folderOfManualInReason))
   .then(() => Promise.all(
       fs.readdirSync(folderOfManualInReason)
+      // ['moduleexamples.html']
         .filter(file => regexForExtension.exec(file).pop() === 'html')
         .map(file => `${folderOfManualInReason}/${file}`)
         .map(fileName =>
