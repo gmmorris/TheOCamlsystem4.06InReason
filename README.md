@@ -1,7 +1,7 @@
 The OCaml system release 4.06 in ReasonML
 ===============================
 
-A clone of the original OCaml system manual written by Xavier Leroy, Damien Doligez, Alain Frisch, Jacques Garrigue, Didier Rémy and Jérôme Vouillon wit hall code examples written in ReasonML istead of OCaml.
+A clone of the original OCaml system manual written by __Xavier Leroy__, __Damien Doligez__, __Alain Frisch__, __Jacques Garrigue__, __Didier Rémy__ and __Jérôme Vouillon__ with all code examples written in ReasonML istead of OCaml.
 All original rights their and I am simply trying to make the docs more accesible to the ReasonML community.
 
 The original OCaml docs are on [caml.inria.fr ](https://caml.inria.fr/pub/docs/manual-ocaml/index.html)
@@ -13,7 +13,7 @@ To rectify this I wrote a small script which creates a copy of the docs and conv
 
 # How can I contribute?
 If you find a section of the code hasn't been converted properly (which is likely as this has been done programmatically) please do correct it and and issue a PR.
-Please *do not* change the *docs/* folder but rather make the correction in the _./convertToReason/index.js_ script or the _./TheOCamlsystem4.06/_ documentation, and then regenerate the docs folder by running:
+Please __do not__ change the _docs/_ folder but rather make the correction in the _./convertToReason/index.js_ script or the _./TheOCamlsystem4.06/_ documentation, and then regenerate the docs folder by running:
 ```bash
 cd ./convertToReason
 npm i
