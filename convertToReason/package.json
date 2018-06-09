@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "reformat": "bsrefmt"
   },
   "author": "Gidi Meir Morris <gidi@gidi.io> (http://www.gidi.io)",
   "license": "MIT",
@@ -13,6 +13,8 @@
     "jsdom": "^11.11.0",
     "ncp": "^2.0.0",
     "node-cmd": "^3.0.0",
-    "refmt": "^1.13.7-1"
+    "node-run-cmd": "^1.0.1",
+    "refmt": "^1.13.7-1",
+    "shelljs": "^0.8.2"
   }
 }

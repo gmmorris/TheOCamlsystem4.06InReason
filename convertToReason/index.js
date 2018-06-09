@@ -1,5 +1,9 @@
 const refmt = require('refmt');
 const jsdom = require('jsdom');
+// const nrc = require('node-run-cmd');
+const shell = require('shelljs');
+shell.config.silent = true;
+
 const { ncp } = require('ncp');
 ncp.limit = 16;
 
@@ -53,6 +57,19 @@ const injectHighlighter = dom => {
   return dom;
 };
 
+const convertMLtoRE = mlCode => new Promise((resolve, reject) => {
+  shell.exec(`echo "${mlCode}"`).exec(`node_modules/.bin/bsrefmt --parse ml --print re `, function(code, stdout, stderr) {
+    if(code === 0) {
+      resolve(stdout);
+    } else {
+      reject(stderr);
+    }
+    // console.log('Exit code:', code);
+    // console.log('Program output:', stdout);
+    // console.log('Program stderr:', stderr);
+  });
+});
+
 const folderOfManual = '../TheOCamlsystem4.06';
 const folderOfManualInReason = `${folderOfManual}.reason`;
 
@@ -72,16 +89,19 @@ ncpAsync(folderOfManual, folderOfManualInReason)
     Promise.all(
       files.map(([fileName, dom]) => {
         console.log(`Processing ${fileName}`);
-        [...findOCamlCodeElements(dom)]
-          .map(ocamlCodeBlock => {
-            ocamlCodeBlock.className += " re-input";
-            const output = refmt(ocamlCodeBlock.textContent, 'ML');
-            if (!parsingError.test(output)) {
-              ocamlCodeBlock.textContent = output;
-            }
-          });
-        console.log(`Writing ${fileName}`);
-        return writeFileAsync(`${fileName}`, dom.serialize());
+        return Promise.all(
+          [...findOCamlCodeElements(dom)]
+          .map(ocamlCodeBlock =>
+            convertMLtoRE(ocamlCodeBlock.textContent)
+            .then(reCode => {
+              ocamlCodeBlock.className += " re-input";
+              ocamlCodeBlock.textContent = reCode;
+            })
+          )
+        ).then(_ => {
+          console.log(`Writing ${fileName}`);
+          return writeFileAsync(`${fileName}`, dom.serialize());
+        });
       })
     )
   ))
