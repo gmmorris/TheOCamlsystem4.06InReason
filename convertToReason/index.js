@@ -1,8 +1,29 @@
 const refmt = require('refmt');
-const jsdom = require('jsdom');
-// const nrc = require('node-run-cmd');
+const { JSDOM } = require('jsdom');
+
+const colors = require('colors/safe');
+const callAndReturn = callback => s => {
+  callback(s)
+  return s;
+};
+const logSuccess = callAndReturn(s => console.log(colors.green(s)));
+const logInfo = callAndReturn(s => console.log(colors.green(s)));
+const logError = callAndReturn(s => console.log(colors.red(s)));
+const logCode = callAndReturn(s => console.log(colors.blue(s)));
+const logEcho = callAndReturn(s => console.log(colors.yellow(s)));
+
+const fs = require('fs');
+const { promisify } = require('util');
+const writeFileAsync = promisify(fs.writeFile);
+const chunk = require('lodash.chunk');
+const flatten = require('lodash.flatten');
+
+const rimraf = require('rimraf');
+const rmrfAsync = promisify(rimraf);
+
 const shell = require('shelljs');
-shell.config.silent = true;
+shell.config.fatal = true;
+// shell.config.silent = true;
 
 const { ncp } = require('ncp');
 ncp.limit = 16;
@@ -16,12 +37,6 @@ const ncpAsync = (src, dest) => new Promise((resolve, reject) => {
     }
   });
 });
-
-const { JSDOM } = jsdom;
-
-const fs = require('fs');
-const { promisify } = require('util');
-const writeFileAsync = promisify(fs.writeFile);
 
 const regexForExtension = /(?:\.([^.]+))?$/;
 const regexForFileExample = /[fF]ile\s[a-zA-Z]+\.ml\s/gm;
@@ -57,56 +72,91 @@ const injectHighlighter = dom => {
   return dom;
 };
 
+const sanitise = str => str
+  .replace(/`/g,"\\`")
+  .replace(/"/g,"\\\"");
+
 const convertMLtoRE = mlCode => new Promise((resolve, reject) => {
-  shell.exec(`echo "${mlCode}"`).exec(`node_modules/.bin/bsrefmt --parse ml --print re `, function(code, stdout, stderr) {
-    if(code === 0) {
-      resolve(stdout);
-    } else {
-      reject(stderr);
-    }
-    // console.log('Exit code:', code);
-    // console.log('Program output:', stdout);
-    // console.log('Program stderr:', stderr);
-  });
+  const { code, stdout, stderr } = shell
+    .exec(logEcho(`echo "${sanitise(mlCode)}"`))
+    .exec(`node_modules/.bin/bsrefmt --parse ml --print re `);
+  if(code === 0) {
+    resolve(stdout);
+  } else {
+    reject(stderr);
+  }
 });
 
 const folderOfManual = '../TheOCamlsystem4.06';
 const folderOfManualInReason = `${folderOfManual}.reason`;
 
-fs.mkdirSync(folderOfManualInReason);
-ncpAsync(folderOfManual, folderOfManualInReason)
-  .then(() => Promise.all(
-    fs.readdirSync(folderOfManualInReason)
-      .filter(file => regexForExtension.exec(file).pop() === 'html')
-      .map(file => `${folderOfManualInReason}/${file}`)
-      .map(fileName =>
-        JSDOM
-          .fromFile(fileName)
-          .then(injectHighlighter)
-          .then(dom => [fileName, dom])
+const staggerArrayOfPromises = (chunkSize, items, processor) => {
+  return chunk(items, chunkSize)
+    .reduce((accm, chuckOfItemsToProcess) =>{
+      return accm.then(
+        (prev) => Promise.all(
+          chuckOfItemsToProcess.map(processor)
+        ).then(curr => flatten([prev,curr]))
       )
-  ).then(files =>
-    Promise.all(
-      files.map(([fileName, dom]) => {
-        console.log(`Processing ${fileName}`);
-        return Promise.all(
-          [...findOCamlCodeElements(dom)]
-          .map(ocamlCodeBlock =>
-            convertMLtoRE(ocamlCodeBlock.textContent)
+    }, Promise.resolve([]))
+};
+
+rmrfAsync(folderOfManualInReason)
+  .then(() => fs.mkdirSync(folderOfManualInReason))
+  .then(() => ncpAsync(folderOfManual, folderOfManualInReason))
+  .then(() => Promise.all(
+      fs.readdirSync(folderOfManualInReason)
+        .filter(file => regexForExtension.exec(file).pop() === 'html')
+        .map(file => `${folderOfManualInReason}/${file}`)
+        .map(fileName =>
+          JSDOM
+            .fromFile(fileName)
+            .then(injectHighlighter)
+            .then(dom => [fileName, dom])
+        )
+    )
+  )
+  .then(files => staggerArrayOfPromises(
+    1,
+    files,
+    ([fileName, dom]) => {
+      logInfo(`Processing ${fileName}`);
+      return Promise.all(
+        [...findOCamlCodeElements(dom)]
+          .map((ocamlCodeBlock, index, all) => {
+            logInfo(`converting ${index + 1}/${all.length} in ${fileName}`);
+            return convertMLtoRE(ocamlCodeBlock.textContent)
+            .catch(e => {
+                logError(`
+              Failed ${index + 1}/${all.length} in ${fileName}:
+${e}
+                `);
+                logCode(`
+${mlCode}
+                `);
+                return mlCode;
+            })
             .then(reCode => {
               ocamlCodeBlock.className += " re-input";
               ocamlCodeBlock.textContent = reCode;
             })
-          )
-        ).then(_ => {
-          console.log(`Writing ${fileName}`);
-          return writeFileAsync(`${fileName}`, dom.serialize());
-        });
-      })
-    )
-  ))
-  .then(_ => {
-    console.log('written');
-  }).catch(e => {
-    console.log(e);
-  });
+            .catch(mlCode => {
+              ocamlCodeBlock.className += " re-failed-input";
+            })
+          })
+      ).then(_ => {
+        logInfo(`Writing ${fileName}`);
+        return writeFileAsync(`${fileName}`, dom.serialize())
+          .catch(e => {
+            logError(`failed to write ${fileName}:${e}`);
+          }).then(_ => {
+            logSuccess(`Processed ${fileName}`);
+          });
+      });
+  })
+)
+.then(_ => {
+  logSuccess('Fin.');
+}).catch(e => {
+  logError(e);
+});
