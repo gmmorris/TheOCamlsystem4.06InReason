@@ -6,6 +6,9 @@ All original rights their and I am simply trying to make the docs more accesible
 
 The original OCaml docs are on [caml.inria.fr ](https://caml.inria.fr/pub/docs/manual-ocaml/index.html)
 
+#Where
+You can view the docs online here: [gmmorris.github.io/TheOCamlsystem4.06InReason](http://gidi.io/TheOCamlsystem4.06InReason/index.html)
+
 # Why
 I have been trying to learn ReasonML and in order to understand the ecosystem properly I felt I should understand OCaml and so I have been refering to this manual quite alot.
 The one annoyance I have had is that going back and forth converting the OCaml code to ReasonML code has been a little annoying and the Chrome extsnions didn't seem to do well on these pages.
