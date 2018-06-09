@@ -1,7 +1,7 @@
 The OCaml system release 4.06 in ReasonML
 ===============================
 
-A clone of the original OCaml system manual written by __Xavier Leroy__, __Damien Doligez__, __Alain Frisch__, __Jacques Garrigue__, __Didier Rémy__ and __Jérôme Vouillon__ with all code examples written in ReasonML istead of OCaml.
+A clone of the original OCaml system manual written by __Xavier Leroy__, __Damien Doligez__, __Alain Frisch__, __Jacques Garrigue__, __Didier Rémy__ and __Jérôme Vouillon__ with all code examples written in ReasonML instead of OCaml.
 All original rights their and I am simply trying to make the docs more accesible to the ReasonML community.
 
 The original OCaml docs are on [caml.inria.fr ](https://caml.inria.fr/pub/docs/manual-ocaml/index.html)
