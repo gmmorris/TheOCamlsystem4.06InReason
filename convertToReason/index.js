@@ -91,7 +91,7 @@ const convertMLtoRE = mlCode => new Promise((resolve, reject) => {
 });
 
 const folderOfManual = '../TheOCamlsystem4.06';
-const folderOfManualInReason = `docs`;
+const folderOfManualInReason = `../docs`;
 
 const staggerArrayOfPromises = (chunkSize, items, processor) => {
   return chunk(items, chunkSize)

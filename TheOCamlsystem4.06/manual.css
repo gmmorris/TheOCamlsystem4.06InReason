@@ -62,12 +62,28 @@ body{background-color:white}
 a:link{color:#00B200;text-decoration:underline;}
 a:visited{color:#006600;text-decoration:underline;}
 a:hover{color:black;text-decoration:none;background-color:#99FF99}
-.part{padding:1ex;background-color:#00CC00}
-.section{padding:.5ex;background-color:#66FF66}
-.subsection{padding:0.3ex;background-color:#7FFF7F}
+.part{padding:1ex;
+  font-family: sans-serif;
+ font-weight: bold;
+ background: #dc4d3f;
+ color: white;}
+.section{padding:.5ex;
+  font-family: sans-serif;
+ font-weight: bold;
+ background: #dc4d3f;
+ color: white;}
+.subsection{padding:0.3ex;
+  font-family: sans-serif;
+ font-weight: bold;
+ background: #dc4d3f;
+ color: white;}
 .subsubsection{padding:0.5ex;background-color:#99FF99}
 .paragraph{padding:0.5ex;background-color:#CCFFCC}
-.chapter{padding:0.5ex;background-color:#2DE52D}
+.chapter{padding:0.5ex;
+  font-family: sans-serif;
+ font-weight: bold;
+ background: #dc4d3f;
+ color: white;}
 .ffootnoterule{border:none;margin:1em auto 1em 0px;width:50%;background-color:#00CC00}
 .ftoc1{list-style:none;margin:0ex 1ex;padding:0ex 1ex;border-left:1ex solid #00CC00}
 .ftoc2{list-style:none;margin:1ex 1ex;padding:0ex 1ex;border-left:1ex solid #2DE52D}
