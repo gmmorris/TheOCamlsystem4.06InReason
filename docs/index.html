@@ -1,0 +1,122 @@
+<!DOCTYPE html><html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<meta name="generator" content="hevea 2.18">
+<title>The OCaml system, release 4.06
+</title>
+<link rel="stylesheet" type="text/css" href="manual.css">
+<link rel="stylesheet" href="./highlight/styles/default.css"><script type="text/javascript" src="./highlight/highlight.pack.js"></script></head>
+<body>
+<!--HEVEA command line is: hevea -fix -exec xxdate.exe -O -I .. -I ../refman -I ../library -I ../cmds -I ../tutorials -I ../../styles -I ../texstuff manual.hva -e macros.tex ../manual.tex -->
+<!--HACHA command line is: hacha -tocter manual.html -->
+<div class="center">
+&nbsp;<span style="font-size:xx-large"><span style="font-size:150%">The OCaml system <br>
+ release 4.06<br>
+<span style="font-size:x-large">Documentation and user’s manual <br>
+<span style="font-size:large">Xavier Leroy, <br>
+ Damien Doligez, Alain Frisch, Jacques Garrigue, Didier Rémy and Jérôme Vouillon <br>
+ November&nbsp;3, 2017<br>
+ &nbsp;
+<span style="font-size:medium">Copyright © 2013 Institut National de
+Recherche en Informatique et en Automatique
+</span></span></span></span></span></div><blockquote class="quote">
+<hr style="height:2">
+This manual is also available in
+<a href="http://caml.inria.fr/distrib/ocaml-4.06/ocaml-4.06-refman.pdf">PDF</a>.
+<a href="http://caml.inria.fr/distrib/ocaml-4.06/ocaml-4.06-refman.ps.gz">Postscript</a>,
+<a href="http://caml.inria.fr/distrib/ocaml-4.06/ocaml-4.06-refman.dvi.gz">DVI</a>,
+<a href="http://caml.inria.fr/distrib/ocaml-4.06/ocaml-4.06-refman.txt">plain text</a>,
+as a
+<a href="http://caml.inria.fr/distrib/ocaml-4.06/ocaml-4.06-refman-html.tar.gz">bundle of HTML files</a>,
+and as a
+<a href="http://caml.inria.fr/distrib/ocaml-4.06/ocaml-4.06-refman.info.tar.gz">bundle of Emacs Info files</a>.
+<hr style="height:2">
+</blockquote><ul>
+<li><a href="manual001.html">Contents</a>
+</li><li><a href="foreword.html">Foreword</a>
+</li></ul>
+<table class="center"><tbody><tr><td><h1 class="part" id="sec6">Part&nbsp;I<br>
+An introduction to OCaml</h1></td></tr>
+</tbody></table>
+<p>
+<a id="p:tutorials"></a>
+</p>
+<ul>
+<li><a href="coreexamples.html">Chapter&nbsp;1&nbsp;&nbsp;The core language</a>
+</li><li><a href="moduleexamples.html">Chapter&nbsp;2&nbsp;&nbsp;The module system</a>
+</li><li><a href="objectexamples.html">Chapter&nbsp;3&nbsp;&nbsp;Objects in OCaml</a>
+</li><li><a href="lablexamples.html">Chapter&nbsp;4&nbsp;&nbsp;Labels and variants</a>
+</li><li><a href="polymorphism.html">Chapter&nbsp;5&nbsp;&nbsp;Polymorphism and its limitations</a>
+</li><li><a href="advexamples.html">Chapter&nbsp;6&nbsp;&nbsp;Advanced examples with classes and modules</a>
+</li></ul>
+<table class="center"><tbody><tr><td><h1 class="part" id="sec69">Part&nbsp;II<br>
+The OCaml language</h1></td></tr>
+</tbody></table>
+<p>
+<a id="p:refman"></a>
+</p>
+<ul>
+<li><a href="language.html">Chapter&nbsp;7&nbsp;&nbsp;The OCaml language</a>
+</li><li><a href="extn.html">Chapter&nbsp;8&nbsp;&nbsp;Language extensions</a>
+</li></ul>
+<table class="center"><tbody><tr><td><h1 class="part" id="sec278">Part&nbsp;III<br>
+The OCaml tools</h1></td></tr>
+</tbody></table>
+<p>
+<a id="p:commands"></a></p>
+<ul>
+<li><a href="comp.html">Chapter&nbsp;9&nbsp;&nbsp;Batch compilation (ocamlc)</a>
+</li><li><a href="toplevel.html">Chapter&nbsp;10&nbsp;&nbsp;The toplevel system or REPL (ocaml)</a>
+</li><li><a href="runtime.html">Chapter&nbsp;11&nbsp;&nbsp;The runtime system (ocamlrun)</a>
+</li><li><a href="native.html">Chapter&nbsp;12&nbsp;&nbsp;Native-code compilation (ocamlopt)</a>
+</li><li><a href="lexyacc.html">Chapter&nbsp;13&nbsp;&nbsp;Lexer and parser generators (ocamllex, ocamlyacc)</a>
+</li><li><a href="depend.html">Chapter&nbsp;14&nbsp;&nbsp;Dependency generator (ocamldep)</a>
+</li><li><a href="browser.html">Chapter&nbsp;15&nbsp;&nbsp;The browser/editor (ocamlbrowser)</a>
+</li><li><a href="ocamldoc.html">Chapter&nbsp;16&nbsp;&nbsp;The documentation generator (ocamldoc)</a>
+</li><li><a href="debugger.html">Chapter&nbsp;17&nbsp;&nbsp;The debugger (ocamldebug)</a>
+</li><li><a href="profil.html">Chapter&nbsp;18&nbsp;&nbsp;Profiling (ocamlprof)</a>
+</li><li><a href="manual033.html">Chapter&nbsp;19&nbsp;&nbsp;The ocamlbuild compilation manager</a>
+</li><li><a href="intfc.html">Chapter&nbsp;20&nbsp;&nbsp;Interfacing C with OCaml</a>
+</li><li><a href="flambda.html">Chapter&nbsp;21&nbsp;&nbsp;Optimisation with Flambda</a>
+</li><li><a href="spacetime.html">Chapter&nbsp;22&nbsp;&nbsp;Memory profiling with Spacetime</a>
+</li><li><a href="afl-fuzz.html">Chapter&nbsp;23&nbsp;&nbsp;Fuzzing with afl-fuzz</a>
+</li><li><a href="plugins.html">Chapter&nbsp;24&nbsp;&nbsp;Compiler plugins</a>
+</li></ul>
+<table class="center"><tbody><tr><td><h1 class="part" id="sec544">Part&nbsp;IV<br>
+The OCaml library</h1></td></tr>
+</tbody></table>
+<p>
+<a id="p:library"></a>
+</p>
+<ul>
+<li><a href="core.html">Chapter&nbsp;25&nbsp;&nbsp;The core library</a>
+</li><li><a href="stdlib.html">Chapter&nbsp;26&nbsp;&nbsp;The standard library</a>
+</li><li><a href="parsing.html">Chapter&nbsp;27&nbsp;&nbsp;The compiler front-end</a>
+</li><li><a href="libunix.html">Chapter&nbsp;28&nbsp;&nbsp;The unix library: Unix system calls</a>
+</li><li><a href="libnum.html">Chapter&nbsp;29&nbsp;&nbsp;The num library: arbitrary-precision rational arithmetic</a>
+</li><li><a href="libstr.html">Chapter&nbsp;30&nbsp;&nbsp;The str library: regular expressions and string processing</a>
+</li><li><a href="libthreads.html">Chapter&nbsp;31&nbsp;&nbsp;The threads library</a>
+</li><li><a href="libgraph.html">Chapter&nbsp;32&nbsp;&nbsp;The graphics library</a>
+</li><li><a href="libdynlink.html">Chapter&nbsp;33&nbsp;&nbsp;The dynlink library: dynamic loading and linking of object files</a>
+</li><li><a href="libbigarray.html">Chapter&nbsp;34&nbsp;&nbsp;The bigarray library</a>
+</li></ul>
+<table class="center"><tbody><tr><td><h1 class="part" id="sec566">Part&nbsp;V<br>
+Appendix</h1></td></tr>
+</tbody></table>
+<p>
+<a id="p:appendix"></a></p><ul class="ftoc2"><li class="li-links">
+<a href="libref/index_modules.html">Index of modules</a>
+</li><li class="li-links"><a href="libref/index_module_types.html">Index of module types</a>
+</li><li class="li-links"><a href="libref/index_types.html">Index of types</a>
+</li><li class="li-links"><a href="libref/index_exceptions.html">Index of exceptions</a>
+</li><li class="li-links"><a href="libref/index_values.html">Index of values</a>
+</li></ul><ul>
+<li><a href="manual049.html">Index of keywords</a>
+</li></ul>
+<!--FOOTER-->
+<hr style="height:2"><blockquote class="quote"><em>This document was translated from L<sup>A</sup>T<sub>E</sub>X by
+</em><a href="http://hevea.inria.fr/index.html"><em>H<span class="c008"><sup>E</sup></span>V<span class="c008"><sup>E</sup></span>A</em></a><em>.</em></blockquote>
+
+<script lang="javascript">
+    Array.prototype.slice.call(document.querySelectorAll('.re-input'))
+      .forEach(function(block){hljs.highlightBlock(block);});
+  </script></body></html>

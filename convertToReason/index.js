@@ -91,7 +91,7 @@ const convertMLtoRE = mlCode => new Promise((resolve, reject) => {
 });
 
 const folderOfManual = '../TheOCamlsystem4.06';
-const folderOfManualInReason = `${folderOfManual}.reason`;
+const folderOfManualInReason = `docs`;
 
 const staggerArrayOfPromises = (chunkSize, items, processor) => {
   return chunk(items, chunkSize)
@@ -109,7 +109,6 @@ rmrfAsync(folderOfManualInReason)
   .then(() => ncpAsync(folderOfManual, folderOfManualInReason))
   .then(() => Promise.all(
       fs.readdirSync(folderOfManualInReason)
-      // ['moduleexamples.html']
         .filter(file => regexForExtension.exec(file).pop() === 'html')
         .map(file => `${folderOfManualInReason}/${file}`)
         .map(fileName =>
